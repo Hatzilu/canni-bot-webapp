@@ -5,5 +5,5 @@ import styles from './page.module.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
-  return <div></div>;
+  return <div className="p-25 w-screen flex-1 text-center">Home</div>;
 }

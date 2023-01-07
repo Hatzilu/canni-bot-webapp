@@ -14,8 +14,10 @@ export default function RootLayout({
       */}
       <head />
       <body>
-        <Navbar />
-        {children}
+        <div className="flex">
+          <Navbar />
+          {children}
+        </div>
       </body>
     </html>
   );
