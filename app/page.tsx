@@ -1,91 +1,102 @@
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from './page.module.css'
+import Image from "next/image";
+import { Inter } from "@next/font/google";
+import styles from "./page.module.css";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
+      <img
+        src="/img/beams.jpg"
+        alt=""
+        className="absolute top-1/2 left-1/2 max-w-none -translate-x-1/2 -translate-y-1/2"
+        width="1308"
+      />
+      <div className="bg-yellow-50 inset-0 bg-[url(/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
+      <div className="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
+        <div className="mx-auto max-w-md">
+          <img src="/img/logo.svg" className="h-6" alt="Tailwind Play" />
+          <div className="divide-y divide-gray-300/50">
+            <div className="space-y-6 py-8 text-base leading-7 text-gray-600">
+              <p>
+                An advanced online playground for Tailwind CSS, including
+                support for things like:
+              </p>
+              <ul className="space-y-4">
+                <li className="flex items-center">
+                  <svg
+                    className="h-6 w-6 flex-none fill-sky-100 stroke-sky-500 stroke-2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="11" />
+                    <path
+                      d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9"
+                      fill="none"
+                    />
+                  </svg>
+                  <p className="ml-4">
+                    Customizing your
+                    <code className="text-sm font-bold text-gray-900">
+                      tailwind.config.js
+                    </code>{" "}
+                    file
+                  </p>
+                </li>
+                <li className="flex items-center">
+                  <svg
+                    className="h-6 w-6 flex-none fill-sky-100 stroke-sky-500 stroke-2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="11" />
+                    <path
+                      d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9"
+                      fill="none"
+                    />
+                  </svg>
+                  <p className="ml-4">
+                    Extracting classes with
+                    <code className="text-sm font-bold text-gray-900">
+                      @apply
+                    </code>
+                  </p>
+                </li>
+                <li className="flex items-center">
+                  <svg
+                    className="h-6 w-6 flex-none fill-sky-100 stroke-sky-500 stroke-2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="11" />
+                    <path
+                      d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9"
+                      fill="none"
+                    />
+                  </svg>
+                  <p className="ml-4">Code completion with instant preview</p>
+                </li>
+              </ul>
+              <p>
+                Perfect for learning how the framework works, prototyping a new
+                idea, or creating a demo to share online.
+              </p>
+            </div>
+            <div className="pt-8 text-base font-semibold leading-7">
+              <p className="text-gray-900">Want to dig deeper into Tailwind?</p>
+              <p>
+                <a
+                  href="https://tailwindcss.com/docs"
+                  className="text-sky-500 hover:text-sky-600"
+                >
+                  Read the docs &rarr;
+                </a>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    </div>
+  );
 }
