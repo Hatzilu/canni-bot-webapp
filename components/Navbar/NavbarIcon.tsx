@@ -7,7 +7,7 @@ const NavbarIcon = ({ icon, text = 'This is a tooltip' }: Props) => {
   return (
     <div className="sidebar-icon group">
       {icon}
-      <span className="sidebar-tooltip group-hover:scale-100">{text}</span>
+      <span className="sidebar-tooltip z-10 group-hover:scale-100">{text}</span>
     </div>
   );
 };
