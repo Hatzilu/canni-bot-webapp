@@ -5,6 +5,7 @@ import StatisticCard from '../StatisticCard/StatisticCard';
 export default function StatisticSection() {
   return (
     <div className="flex flex-wrap justify-between gap-5 p-5">
+      {/* @ts-ignore */}
       <GuildCounter />
       <StatisticCard text="users vibing with Canni" statistic={329} />
       <StatisticCard text="bugs found so far" statistic={420} />
