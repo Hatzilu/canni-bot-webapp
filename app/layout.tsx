@@ -1,5 +1,11 @@
 import Navbar from '../components/Navbar/Navbar';
 import './globals.css';
+import { Comfortaa, Varela_Round } from '@next/font/google';
+
+const font = Varela_Round({
+  weight: '400',
+  subsets: ['latin'],
+});
 
 export default function RootLayout({
   children,
@@ -14,7 +20,7 @@ export default function RootLayout({
       */}
       <head />
       <body>
-        <div className="flex">
+        <div className={font.className + ' flex'}>
           <Navbar />
           {children}
         </div>

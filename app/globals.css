@@ -9,6 +9,9 @@
      bg-gray-800 text-indigo-300 hover:bg-indigo-600 hover:text-white
      rounded-3xl hover:rounded-xl transition-all duration-100 ease-linear cursor-pointer;
   }
+  .ease-animation {
+    @apply transition-all ease-out duration-100
+  }
   .sidebar-tooltip {
     @apply absolute w-auto p-2 m-2 min-w-max left-14 rounded-md shadow-md
     text-white bg-gray-900 
