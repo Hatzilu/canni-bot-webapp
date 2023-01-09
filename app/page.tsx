@@ -15,6 +15,13 @@ export default function Home() {
               This is an open-source project I&apos;ve been working on for a
               while, It&apos;s a neat little bot made for shits and giggles.
             </p>
+            <p>
+              Canni has two versions, <strong>Canni Nox 🌑</strong> and{' '}
+              <strong>Canni Lumos 🌞</strong>. <br /> Lumos is the free version,
+              that has all the basic commands. <br />
+              Nox has all the basic commands and a few extra tweaks to make it
+              cooler 😎
+            </p>
           </div>
           <Image
             src="/canni-pfp.png"
