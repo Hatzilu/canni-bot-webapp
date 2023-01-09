@@ -11,16 +11,20 @@ export const authOptions: NextAuthOptions = {
       },
      
       authorize(credentials, req) {
-        console.log('user trying to auth', {credentials, req});
-        
-        
-        const {email, password} = credentials as {
-            email: string;
-            password: string;
-        };
-        // if (email === 'a@a.b') {
-        //     return {email} as User;
-        // }
+          
+          
+          const {email, password} = credentials as {
+              email: string;
+              password: string;
+            };
+            console.log(`user ${email} trying to auth`);
+        if (email === 'a@a.b') {
+            return {email} as  {
+                id: string;
+                email: string;
+                password: string;
+            };
+        }
         throw new Error('Hey! thanks for trying out my log-in page, i am still working on things but one day it should work :D ');
       }
     }),

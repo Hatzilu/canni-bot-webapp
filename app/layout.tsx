@@ -1,7 +1,7 @@
 import Navbar from '../components/Navbar/Navbar';
 import './globals.css';
-import { Comfortaa, Varela_Round } from '@next/font/google';
-import { SessionProvider } from 'next-auth/react';
+import { Varela_Round } from '@next/font/google';
+import ProvidersWrapper from '../components/ProvidersWrapper/ProvidersWrapper';
 const font = Varela_Round({
   weight: '400',
   subsets: ['latin'],
@@ -20,10 +20,12 @@ export default function RootLayout({
       */}
       <head />
       <body>
-        <div className={font.className + ' flex'}>
-          <Navbar />
-          {children}
-        </div>
+        <ProvidersWrapper>
+          <div className={font.className + ' flex'}>
+            <Navbar />
+            {children}
+          </div>
+        </ProvidersWrapper>
       </body>
     </html>
   );

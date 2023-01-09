@@ -17,7 +17,6 @@ function SignIn() {
     event?.preventDefault();
 
     const { email, password } = data;
-    console.log(data);
 
     const res = await signIn('credentials', {
       email,
