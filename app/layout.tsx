@@ -1,7 +1,7 @@
 import Navbar from '../components/Navbar/Navbar';
 import './globals.css';
 import { Comfortaa, Varela_Round } from '@next/font/google';
-
+import { SessionProvider } from 'next-auth/react';
 const font = Varela_Round({
   weight: '400',
   subsets: ['latin'],
