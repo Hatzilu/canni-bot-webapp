@@ -63,7 +63,11 @@ function SignIn() {
             </p>
           )}
           {authError && <p className="text-red font-bold">{authError}</p>}
-          <Button type="submit">Sign In</Button>
+          <div className="flex flex-col justify-center gap-2">
+            <Button type="submit">Sign In</Button>
+            <p className="text-red font-bold">or</p>
+            <Button type="button">Sign up</Button>
+          </div>
         </form>
       </div>
     </div>

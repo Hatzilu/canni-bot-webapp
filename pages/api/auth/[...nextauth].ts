@@ -1,6 +1,10 @@
 import nextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -10,22 +14,37 @@ export const authOptions: NextAuthOptions = {
         password: {label: 'Password', type:'password'}
       },
      
-      authorize(credentials, req) {
-          
-          
-          const {email, password} = credentials as {
-              email: string;
-              password: string;
-            };
-            console.log(`user ${email} trying to auth`);
-        if (email === 'a@a.b') {
-            return {email} as  {
-                id: string;
-                email: string;
-                password: string;
-            };
+      async authorize(credentials, req) {
+
+        const {email, password} = credentials as {
+            email: string;
+            password: string;
+          };
+
+        if (!email || !password) {
+          throw new Error('Invalid form, missing email or password');
         }
-        throw new Error('Hey! thanks for trying out my log-in page, i am still working on things but one day it should work :D ');
+
+        console.log(`user ${email} trying to auth`);
+
+        const user = await prisma.user.findFirst({
+          where: {
+            email: email,
+            password: password
+          }
+        })    
+
+        console.log(`found user from db: `, user);
+
+        if (!user) {
+          throw new Error('This user does not exist.');
+        }
+        
+        return {email} as  {
+            id: string;
+            email: string;
+            password: string;
+        };
       }
     }),
   ],
