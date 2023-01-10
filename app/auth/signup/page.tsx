@@ -4,32 +4,55 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../components/Button/Button';
 import { signIn } from 'next-auth/react';
 import { SubmitHandler } from 'react-hook-form/dist/types';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 type UserData = {
   email: string,
   password: string,
 };
-function SignIn() {
+
+export default function SignUp() {
   const methods = useForm<UserData>();
   const [authError, setAuthError] = useState('');
+  const router = useRouter();
+
   const onSubmit: SubmitHandler<UserData> = async (data, event) => {
     console.log({ event });
+    setAuthError('');
 
     event?.preventDefault();
 
+    const res = await fetch('/api/signup', {
+      method: 'POST',
+      // Tell the server we're sending JSON.
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Body of the request is the JSON data we created above.
+      body: JSON.stringify(data),
+    });
+    const json = await res.json();
+
+    if (json.error) {
+      setAuthError(json.error);
+      return;
+    }
+    autoLoginUser(data);
+  };
+
+  const autoLoginUser = async (data: UserData) => {
     const { email, password } = data;
 
-    const res = await signIn('credentials', {
+    const signInRes = await signIn('credentials', {
       email,
       password,
       redirect: false,
     });
-    if (res?.error) {
-      setAuthError(res.error);
+    if (signInRes?.error) {
+      setAuthError(signInRes.error);
       return;
     }
-    console.log({ res });
+    router.push('/profile');
   };
 
   return (
@@ -66,16 +89,10 @@ function SignIn() {
           )}
           {authError && <p className="text-red font-bold">{authError}</p>}
           <div className="flex w-full items-center justify-center gap-2">
-            <Button type="submit">Sign In</Button>
-            <p className="text-red font-bold">or</p>
-            <Link href="/auth/signup">
-              <Button type="button">Sign up</Button>
-            </Link>
+            <Button type="submit">Sign Up</Button>
           </div>
         </form>
       </div>
     </div>
   );
 }
-
-export default SignIn;

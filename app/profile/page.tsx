@@ -1,19 +1,11 @@
+'use client';
 import React from 'react';
-import { PrismaClient } from '@prisma/client';
+import { signOut } from 'next-auth/react';
 
-const prisma = new PrismaClient();
-
-export default async function Profile() {
-  const users = await prisma.user.findMany();
-
-  console.log(users);
-
+export default function Profile() {
   return (
     <div>
-      {/* Hello, {session?.user?.email}! you&apos;ve successfully authenticated! */}
-      {users.map((user) => (
-        <p key={user.id}>{user.email}</p>
-      ))}
+      <button onClick={() => signOut()}>Logout</button>
     </div>
   );
 }
