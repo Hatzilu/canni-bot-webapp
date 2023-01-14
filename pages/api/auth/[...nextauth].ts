@@ -48,6 +48,39 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/auth/signin'
   },
-  secret: process.env.NEXT_PUBLIC_SECRET // I dunno why neither the docs nor the tutorials cover this, but if you don't set the secret property here, you will get the CLIENT_FETCH_ERROR with nextAuth in the production build.
+  secret: process.env.NEXT_PUBLIC_SECRET, // I dunno why neither the docs nor the tutorials cover this, but if you don't set the secret property here, you will get the CLIENT_FETCH_ERROR with nextAuth in the production build.
+  callbacks: {
+    async session({ session }) { 
+      
+      /**
+       * by default nextAuth returns a basic user object and that kinda sucks cuz i have some more data i wanna return
+       * from the DB, so i use the session callback here to connect to my DB real quick and send more properties 
+       * to the session object.
+       * see https://next-auth.js.org/configuration/callbacks#session-callback
+       *  */ 
+      if (!session?.user) return session;
+      try {
+        const userFromDB = await prisma.user.findFirst({
+          where: {
+            email: session.user.email,
+          },
+          select: { //select specific fields to return, we don't want to return any sensitive data the frontend doesn't need.
+            email: true,
+            id: true,
+            image: true,
+            emailVerified: true,
+            name: true,
+          }
+        });
+        if (!userFromDB) return session;
+
+        session.user = userFromDB;
+      }
+      catch (e) {
+        console.log('failed to read from DB, ',e);  
+      }
+      return session;
+    }
+  }
 };
 export default nextAuth(authOptions);
