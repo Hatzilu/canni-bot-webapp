@@ -6,6 +6,7 @@ import { signIn } from 'next-auth/react';
 import { SubmitHandler } from 'react-hook-form/dist/types';
 import { useRouter } from 'next/navigation';
 import { User } from '@prisma/client';
+import PageCard from '../../../components/PageCard/PageCard';
 
 export default function SignUp() {
   const methods = useForm<User>();
@@ -51,44 +52,42 @@ export default function SignUp() {
   };
 
   return (
-    <div className="relative w-full p-5 text-white shadow-lg">
-      <div className="flex flex-col gap-10 rounded-lg bg-gray-900 p-5">
-        <form
-          className="flex flex-col gap-5 p-20"
-          onSubmit={methods.handleSubmit(onSubmit)}
-        >
-          <input
-            {...methods.register('email', {
-              required: 'an email is required!',
-            })}
-            className="rounded-3xl bg-gray-800 p-2"
-            placeholder="email"
-          />
-          {methods.formState.errors.email && (
-            <p className="text-red font-bold">
-              {methods.formState.errors.email.message}
-            </p>
-          )}
-          <input
-            className="rounded-3xl bg-gray-800 p-2"
-            {...methods.register('password', {
-              required: 'a password is required!',
-            })}
-            type="password"
-            placeholder="password"
-          />
+    <PageCard>
+      <form
+        className="flex flex-col gap-5 p-20"
+        onSubmit={methods.handleSubmit(onSubmit)}
+      >
+        <input
+          {...methods.register('email', {
+            required: 'an email is required!',
+          })}
+          className="rounded-3xl bg-gray-800 p-2"
+          placeholder="email"
+        />
+        {methods.formState.errors.email && (
+          <p className="text-red font-bold">
+            {methods.formState.errors.email.message}
+          </p>
+        )}
+        <input
+          className="rounded-3xl bg-gray-800 p-2"
+          {...methods.register('password', {
+            required: 'a password is required!',
+          })}
+          type="password"
+          placeholder="password"
+        />
 
-          {methods.formState.errors.password && (
-            <p className="text-red font-bold">
-              {methods.formState.errors.password.message}
-            </p>
-          )}
-          {authError && <p className="text-red font-bold">{authError}</p>}
-          <div className="flex w-full items-center justify-center gap-2">
-            <Button type="submit">Sign Up</Button>
-          </div>
-        </form>
-      </div>
-    </div>
+        {methods.formState.errors.password && (
+          <p className="text-red font-bold">
+            {methods.formState.errors.password.message}
+          </p>
+        )}
+        {authError && <p className="text-red font-bold">{authError}</p>}
+        <div className="flex w-full items-center justify-center gap-2">
+          <Button type="submit">Sign Up</Button>
+        </div>
+      </form>
+    </PageCard>
   );
 }
