@@ -29,16 +29,16 @@ export default async function handler(
 
   console.log(`user ${email} trying to sign up`);
 
-  const userFromDb = await prisma.user.findFirst({
-    where: {
-      email,
-      password,
-    },
-  });
-  if (userFromDb) {
-    return res.status(400).json({ error: 'User already exists.' });
-  }
   try {
+    const userFromDb = await prisma.user.findFirst({
+      where: {
+        email,
+        password,
+      },
+    });
+    if (userFromDb) {
+      return res.status(400).json({ error: 'User already exists.' });
+    }
     const newUser = await prisma.user.create({
       data: {
         email,
