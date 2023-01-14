@@ -48,6 +48,6 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/auth/signin'
   },
-  secret: process.env.NEXT_PUBLIC_SECRET
+  secret: process.env.NEXT_PUBLIC_SECRET // I dunno why neither the docs nor the tutorials cover this, but if you don't set the secret property here, you will get the CLIENT_FETCH_ERROR with nextAuth in the production build.
 };
 export default nextAuth(authOptions);
