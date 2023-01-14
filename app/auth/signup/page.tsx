@@ -75,6 +75,7 @@ export default function SignUp() {
             {...methods.register('password', {
               required: 'a password is required!',
             })}
+            type="password"
             placeholder="password"
           />
 

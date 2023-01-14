@@ -24,6 +24,7 @@ function SignIn() {
       email,
       password,
       redirect: false,
+      callbackUrl: `${window.location.origin}/profile`,
     });
     if (res?.error) {
       setAuthError(res.error);
@@ -56,6 +57,7 @@ function SignIn() {
             {...methods.register('password', {
               required: 'a password is required!',
             })}
+            type="password"
             placeholder="password"
           />
 
