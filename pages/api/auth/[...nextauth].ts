@@ -2,8 +2,7 @@ import nextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, User } from '@prisma/client'
 const prisma = new PrismaClient(); 
 
 export const authOptions: NextAuthOptions = {
@@ -18,10 +17,7 @@ export const authOptions: NextAuthOptions = {
      
       async authorize(credentials, req) {
 
-        const {email, password} = credentials as {
-            email: string;
-            password: string;
-          };
+        const {email, password} = credentials as User;
 
         if (!email || !password) {
           throw new Error('Invalid form, missing email or password');
