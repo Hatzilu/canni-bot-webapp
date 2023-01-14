@@ -2,15 +2,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 type Data =
-  | {
-      email: string,
-      password: string,
-    }
+  | User
   | {
       error: string,
     };
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 
 const prisma = new PrismaClient();
 

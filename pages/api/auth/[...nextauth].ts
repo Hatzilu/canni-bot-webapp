@@ -2,7 +2,9 @@ import nextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import prisma from '../../../lib/prismadb'
+
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient(); 
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -26,24 +28,21 @@ export const authOptions: NextAuthOptions = {
         }
 
         console.log(`user ${email} trying to auth`);
-
+        
         const user = await prisma.user.findFirst({
           where: {
             email: email,
+            password: password,
           }
         })    
 
-        console.log(`found user from db: `, user);
-
+        
         if (!user) {
           throw new Error('This user does not exist.');
         }
+        console.log(`found user from db: `, user.id);
         
-        return {email} as  {
-            id: string;
-            email: string;
-            password: string;
-        };
+        return user;
       }
     }),
   ],

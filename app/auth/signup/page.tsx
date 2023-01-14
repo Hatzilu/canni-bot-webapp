@@ -5,18 +5,14 @@ import Button from '../../../components/Button/Button';
 import { signIn } from 'next-auth/react';
 import { SubmitHandler } from 'react-hook-form/dist/types';
 import { useRouter } from 'next/navigation';
-
-type UserData = {
-  email: string,
-  password: string,
-};
+import { User } from '@prisma/client';
 
 export default function SignUp() {
-  const methods = useForm<UserData>();
+  const methods = useForm<User>();
   const [authError, setAuthError] = useState('');
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<UserData> = async (data, event) => {
+  const onSubmit: SubmitHandler<User> = async (data, event) => {
     console.log({ event });
     setAuthError('');
 
@@ -40,7 +36,7 @@ export default function SignUp() {
     autoLoginUser(data);
   };
 
-  const autoLoginUser = async (data: UserData) => {
+  const autoLoginUser = async (data: User) => {
     const { email, password } = data;
 
     const signInRes = await signIn('credentials', {
