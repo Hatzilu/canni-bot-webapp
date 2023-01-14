@@ -1,11 +1,11 @@
 import nextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import prisma from '../../../lib/prismadb'
 
 export const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       type: 'credentials',
@@ -30,7 +30,6 @@ export const authOptions: NextAuthOptions = {
         const user = await prisma.user.findFirst({
           where: {
             email: email,
-            password: password
           }
         })    
 
