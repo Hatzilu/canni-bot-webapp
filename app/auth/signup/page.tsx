@@ -13,7 +13,6 @@ export default function SignUp() {
   const router = useRouter();
 
   const onSubmit: SubmitHandler<User> = async (data, event) => {
-    console.log({ event });
     setAuthError('');
 
     event?.preventDefault();
