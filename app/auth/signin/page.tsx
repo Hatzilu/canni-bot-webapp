@@ -9,28 +9,38 @@ import { useRouter } from 'next/navigation';
 
 import { User } from '@prisma/client';
 import PageCard from '../../../components/PageCard/PageCard';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 function SignIn() {
-  const methods = useForm<User>();
+  const methods = useForm<User & { captcha: string }>();
   const [authError, setAuthError] = useState('');
   const router = useRouter();
-  const onSubmit: SubmitHandler<User> = async (data, event) => {
+  const onSubmit: SubmitHandler<User & { captcha: string }> = async (
+    data,
+    event
+  ) => {
     event?.preventDefault();
 
     const { email, password } = data;
+    console.log(data);
 
-    const res = await signIn('credentials', {
-      email,
-      password,
-      redirect: false,
-      callbackUrl: `${window.location.origin}/profile`,
-    });
-    if (res?.error) {
-      setAuthError(res.error);
-      return;
-    }
+    // const res = await signIn('credentials', {
+    //   email,
+    //   password,
+    //   redirect: false,
+    //   callbackUrl: `${window.location.origin}/profile`,
+    // });
+    // if (res?.error) {
+    //   setAuthError(res.error);
+    //   return;
+    // }
     router.push('/profile');
   };
+  const onVerifyCaptcha = (token: string | null) => {
+    if (!token) return;
+    methods.setValue('captcha', token);
+  };
+  console.log(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
 
   return (
     <PageCard>
@@ -64,6 +74,10 @@ function SignIn() {
             {methods.formState.errors.password.message}
           </p>
         )}
+        <ReCAPTCHA
+          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
+          onChange={onVerifyCaptcha}
+        />
         {authError && <p className="text-red font-bold">{authError}</p>}
         <div className="flex w-full items-center justify-center gap-2">
           <Button type="submit">Sign In</Button>
