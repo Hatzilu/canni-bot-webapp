@@ -24,21 +24,28 @@ export const authOptions: NextAuthOptions = {
         }
 
         console.log(`user ${email} trying to auth`);
-        
-        const user = await prisma.user.findFirst({
-          where: {
-            email: email,
-            password: password,
-          }
-        })    
+        try {
 
-        
-        if (!user) {
-          throw new Error('This user does not exist.');
+          const user = await prisma.user.findFirst({
+            where: {
+              email: email,
+              password: password,
+            }
+          })    
+  
+          
+          if (!user) {
+            throw new Error('This user does not exist.');
+          }
+          console.log(`found user from db: `, user.id);
+          
+          return user;
         }
-        console.log(`found user from db: `, user.id);
+        catch(e) {
+          console.log(e)
+          throw new Error('Internal server error. Please try again later.')
+        }
         
-        return user;
       }
     }),
   ],
