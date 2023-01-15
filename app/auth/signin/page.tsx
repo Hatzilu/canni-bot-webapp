@@ -6,10 +6,9 @@ import { signIn } from 'next-auth/react';
 import { SubmitHandler } from 'react-hook-form/dist/types';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-
+import ReCAPTCHA from 'react-google-recaptcha';
 import { User } from '@prisma/client';
 import PageCard from '../../../components/PageCard/PageCard';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 function SignIn() {
   const methods = useForm<User & { captcha: string }>();
@@ -20,27 +19,25 @@ function SignIn() {
     event
   ) => {
     event?.preventDefault();
-
     const { email, password } = data;
     console.log(data);
 
-    // const res = await signIn('credentials', {
-    //   email,
-    //   password,
-    //   redirect: false,
-    //   callbackUrl: `${window.location.origin}/profile`,
-    // });
-    // if (res?.error) {
-    //   setAuthError(res.error);
-    //   return;
-    // }
+    const res = await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+      callbackUrl: `${window.location.origin}/profile`,
+    });
+    if (res?.error) {
+      setAuthError(res.error);
+      return;
+    }
     router.push('/profile');
   };
   const onVerifyCaptcha = (token: string | null) => {
     if (!token) return;
     methods.setValue('captcha', token);
   };
-  console.log(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
 
   return (
     <PageCard>
@@ -54,6 +51,7 @@ function SignIn() {
           })}
           className="rounded-3xl bg-gray-800 p-2"
           placeholder="email"
+          type="email"
         />
         {methods.formState.errors.email && (
           <p className="text-red font-bold">
@@ -74,10 +72,21 @@ function SignIn() {
             {methods.formState.errors.password.message}
           </p>
         )}
-        <ReCAPTCHA
-          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
-          onChange={onVerifyCaptcha}
-        />
+        <div className="flex flex-col items-center gap-2 rounded-3xl bg-gray-800 p-2 pb-6">
+          <p>ReCAPTCHA</p>
+          <ReCAPTCHA
+            {...methods.register('captcha', {
+              required: 'A captcha is required!',
+            })}
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
+            onChange={onVerifyCaptcha}
+          />
+        </div>
+        {methods.formState.errors.captcha && (
+          <p className="text-red font-bold">
+            {methods.formState.errors.captcha.message}
+          </p>
+        )}
         {authError && <p className="text-red font-bold">{authError}</p>}
         <div className="flex w-full items-center justify-center gap-2">
           <Button type="submit">Sign In</Button>

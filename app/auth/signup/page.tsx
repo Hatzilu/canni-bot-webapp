@@ -7,13 +7,17 @@ import { SubmitHandler } from 'react-hook-form/dist/types';
 import { useRouter } from 'next/navigation';
 import { User } from '@prisma/client';
 import PageCard from '../../../components/PageCard/PageCard';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 export default function SignUp() {
-  const methods = useForm<User>();
+  const methods = useForm<User & { captcha: string }>();
   const [authError, setAuthError] = useState('');
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<User> = async (data, event) => {
+  const onSubmit: SubmitHandler<User & { captcha: string }> = async (
+    data,
+    event
+  ) => {
     setAuthError('');
 
     event?.preventDefault();
@@ -36,6 +40,10 @@ export default function SignUp() {
     autoLoginUser(data);
   };
 
+  const onVerifyCaptcha = (token: string | null) => {
+    if (!token) return;
+    methods.setValue('captcha', token);
+  };
   const autoLoginUser = async (data: User) => {
     const { email, password } = data;
 
@@ -63,6 +71,7 @@ export default function SignUp() {
           })}
           className="rounded-3xl bg-gray-800 p-2"
           placeholder="email"
+          type="email"
         />
         {methods.formState.errors.email && (
           <p className="text-red font-bold">
@@ -81,6 +90,21 @@ export default function SignUp() {
         {methods.formState.errors.password && (
           <p className="text-red font-bold">
             {methods.formState.errors.password.message}
+          </p>
+        )}
+        <div className="flex flex-col items-center gap-2 rounded-3xl bg-gray-800 p-2 pb-6">
+          <p>ReCAPTCHA</p>
+          <ReCAPTCHA
+            {...methods.register('captcha', {
+              required: 'A captcha is required!',
+            })}
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
+            onChange={onVerifyCaptcha}
+          />
+        </div>
+        {methods.formState.errors.captcha && (
+          <p className="text-red font-bold">
+            {methods.formState.errors.captcha.message}
           </p>
         )}
         {authError && <p className="text-red font-bold">{authError}</p>}
