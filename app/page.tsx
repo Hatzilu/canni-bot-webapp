@@ -32,6 +32,7 @@ export default function Home() {
         />
       </div>
       <StatisticsSection />
+
       {inviteUrlOrNull && (
         <Link
           target="_blank"
