@@ -2,10 +2,11 @@ import { RESTGetAPIApplicationCommandsResult } from 'discord-api-types/v10';
 import React from 'react';
 import BotCommandInfo from '../../components/BotCommandInfo/BotCommandInfo';
 import PageCard from '../../components/PageCard/PageCard';
+import { BASE_URL } from '../../consts/consts';
 
 async function Docs() {
   const commands: RESTGetAPIApplicationCommandsResult = await fetch(
-    'http://localhost:3000/api/getBotCommands'
+    `${BASE_URL}/api/getBotCommands`
   ).then((res) => res.json());
 
   return (
