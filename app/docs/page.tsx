@@ -5,7 +5,7 @@ import PageCard from '../../components/PageCard/PageCard';
 import { BASE_URL } from '../../consts/consts';
 
 async function Docs() {
-  const res = await fetch(`${BASE_URL}/api/getBotCommands`);
+  const res = await fetch(`${BASE_URL}/api/commands`);
 
   if (!res.ok) {
     return (
