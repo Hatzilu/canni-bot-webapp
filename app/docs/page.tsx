@@ -5,9 +5,20 @@ import PageCard from '../../components/PageCard/PageCard';
 import { BASE_URL } from '../../consts/consts';
 
 async function Docs() {
-  const commands: RESTGetAPIApplicationCommandsResult = await fetch(
-    `${BASE_URL}/api/getBotCommands`
-  ).then((res) => res.json());
+  const res = await fetch(`${BASE_URL}/api/getBotCommands`);
+
+  if (!res.ok) {
+    return (
+      <PageCard>
+        <h1 className="text-2xl font-bold">Documentation</h1>
+        <p>
+          Something went wrong while fetching the commands from the server,
+          please try again :(
+        </p>
+      </PageCard>
+    );
+  }
+  const commands: RESTGetAPIApplicationCommandsResult = await res.json();
 
   return (
     <PageCard>
