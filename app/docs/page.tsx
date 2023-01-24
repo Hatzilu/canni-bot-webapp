@@ -18,7 +18,16 @@ async function Docs() {
       </PageCard>
     );
   }
-  const commands: RESTGetAPIApplicationCommandsResult = await res.json();
+  const commandsOrNull =
+    async (): Promise<RESTGetAPIApplicationCommandsResult> => {
+      try {
+        const json = await res.json();
+        return json;
+      } catch {
+        return [];
+      }
+    };
+  const commands: RESTGetAPIApplicationCommandsResult = await commandsOrNull();
 
   return (
     <PageCard>
