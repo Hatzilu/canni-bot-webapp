@@ -8,13 +8,14 @@ import { BotCommandsResponse } from '../../pages/api/commands';
 async function Docs() {
   const res = await fetch(`${BASE_URL}/api/commands`);
 
-  if (!res.ok) {
+  if (res.status !== 200) {
     return (
       <PageCard>
         <h1 className="text-2xl font-bold">Documentation</h1>
         <p>
           Something went wrong while fetching the commands from the server,
           please try again :(
+          {JSON.stringify(res, null, 2)}
         </p>
       </PageCard>
     );
