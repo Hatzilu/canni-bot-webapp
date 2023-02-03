@@ -6,7 +6,9 @@ import { BASE_URL } from '../../consts/consts';
 import { BotCommandsResponse } from '../../pages/api/commands';
 
 async function Docs() {
-  const res = await fetch(`${BASE_URL}/api/commands`);
+  const res = await fetch(
+    `https://canni-bot-webapp-git-add-commands-to-docs-kapeet.vercel.app/api/commands`
+  );
 
   if (!res.ok) {
     return (
