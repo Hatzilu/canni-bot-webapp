@@ -22,18 +22,14 @@ function Docs() {
           </PageCard>
         );
       }
-      console.log({ res });
 
       const commandsOrNull = async (): Promise<BotCommandsResponse> => {
         try {
           const json = await res.json();
-          console.log({ json });
           return json;
         } catch (e) {
-          console.log({ e });
           console.log(`error while turning response json to data: `, e);
-
-          return [];
+          return { error: JSON.stringify(e) };
         }
       };
       const commands: BotCommandsResponse = await commandsOrNull();
@@ -41,7 +37,6 @@ function Docs() {
     };
     handler();
   }, []);
-  console.log({ commands });
 
   if ('error' in commands) {
     return (
