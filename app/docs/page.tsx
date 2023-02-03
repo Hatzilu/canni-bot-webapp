@@ -8,20 +8,27 @@ import { BotCommandsResponse } from '../../pages/api/commands';
 async function Docs() {
   const res = await fetch(`${BASE_URL}/api/commands`);
 
-  if (res.status !== 200) {
+  if (!res.ok) {
     return (
       <PageCard>
         <h1 className="text-2xl font-bold">Documentation</h1>
         <p>
           Something went wrong while fetching the commands from the server,
           please try again :(
-          {JSON.stringify(res, null, 2)}
         </p>
       </PageCard>
     );
   }
 
-  const commands: BotCommandsResponse = await res.json();
+  const commandsOrNull = async (): Promise<BotCommandsResponse> => {
+    try {
+      const json = await res.json();
+      return json;
+    } catch (e) {
+      return [];
+    }
+  };
+  const commands: BotCommandsResponse = await commandsOrNull();
   if ('error' in commands) {
     return (
       <PageCard>
@@ -29,7 +36,6 @@ async function Docs() {
         <p>
           Something went wrong while fetching the commands from the server,
           please try again :(
-          {JSON.stringify(commands.error, null, 2)}
         </p>
       </PageCard>
     );
