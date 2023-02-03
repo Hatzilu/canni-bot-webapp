@@ -9,7 +9,9 @@ export default async function handler(
   res: NextApiResponse<BotCommandsResponse>
 ) {
   if (!process.env.DISCORD_CLIENT_ID || !process.env.DISCORD_GUILD_ID || !process.env.DISCORD_BOT_TOKEN) {
-    res.status(503).send({ error: 'Internal server error.' });
+    console.log('Missing environment variables');
+    
+    res.status(503).json({ error: 'Internal server error.' });
     return;
   }
   try {
@@ -25,15 +27,15 @@ export default async function handler(
     );
   
     if (commandsResponse) {
-      res.status(200).send(commandsResponse as RESTGetAPIApplicationCommandsResult);
+      res.status(200).json(commandsResponse as RESTGetAPIApplicationCommandsResult);
       console.log(' commands success');
       return;
     }
-    res.status(404).send({error: 'Failed to fetch API commands, please try again later.'});
+    res.status(404).json({error: 'Failed to fetch API commands, please try again later.'});
     console.log({error: 'Failed to fetch API commands, please try again later.'});
   }
   catch (e) {
     console.log(`error while fetching commands: `,e);
-    res.status(503).send({ error: 'Internal server error.' });
+    res.status(503).json({ error: 'Internal server error.' });
   }
 }
