@@ -18,12 +18,13 @@ async function Docs() {
       </PageCard>
     );
   }
+
   const commandsOrNull =
     async (): Promise<RESTGetAPIApplicationCommandsResult> => {
       try {
         const json = await res.json();
         return json;
-      } catch {
+      } catch (e) {
         return [];
       }
     };

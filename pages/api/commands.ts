@@ -12,11 +12,11 @@ export default async function handler(
     res.status(503).send({ error: 'Internal server error.' });
     return;
   }
+  try {
   const rest = new REST({ version: '10' }).setToken(
     process.env.DISCORD_BOT_TOKEN ?? ''
   );
 
-  try {
     const commandsResponse = await rest.get(
       Routes.applicationGuildCommands(
         process.env.DISCORD_CLIENT_ID,
@@ -28,6 +28,7 @@ export default async function handler(
       res.status(200).send(commandsResponse as RESTGetAPIApplicationCommandsResult);
       return;
     }
+    res.status(404).send({error: 'Failed to fetch API commands, please try again later.'});
   }
   catch (e) {
     console.error(e);
