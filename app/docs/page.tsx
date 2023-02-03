@@ -3,6 +3,7 @@ import React from 'react';
 import BotCommandInfo from '../../components/BotCommandInfo/BotCommandInfo';
 import PageCard from '../../components/PageCard/PageCard';
 import { BASE_URL } from '../../consts/consts';
+import { BotCommandsResponse } from '../../pages/api/commands';
 
 async function Docs() {
   const res = await fetch(`${BASE_URL}/api/commands`);
@@ -19,16 +20,19 @@ async function Docs() {
     );
   }
 
-  const commandsOrNull =
-    async (): Promise<RESTGetAPIApplicationCommandsResult> => {
-      try {
-        const json = await res.json();
-        return json;
-      } catch (e) {
-        return [];
-      }
-    };
-  const commands: RESTGetAPIApplicationCommandsResult = await commandsOrNull();
+  const commands: BotCommandsResponse = await res.json();
+  if ('error' in commands) {
+    return (
+      <PageCard>
+        <h1 className="text-2xl font-bold">Documentation</h1>
+        <p>
+          Something went wrong while fetching the commands from the server,
+          please try again :(
+          {JSON.stringify(commands.error, null, 2)}
+        </p>
+      </PageCard>
+    );
+  }
 
   return (
     <PageCard>
