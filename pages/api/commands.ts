@@ -8,13 +8,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<BotCommandsResponse>
 ) {
-  if (!process.env.DISCORD_CLIENT_ID || !process.env.DISCORD_GUILD_ID) {
+  if (!process.env.DISCORD_CLIENT_ID || !process.env.DISCORD_GUILD_ID || !process.env.DISCORD_BOT_TOKEN) {
     res.status(503).send({ error: 'Internal server error.' });
     return;
   }
   try {
   const rest = new REST({ version: '10' }).setToken(
-    process.env.DISCORD_BOT_TOKEN ?? ''
+    process.env.DISCORD_BOT_TOKEN
   );
 
     const commandsResponse = await rest.get(
@@ -26,12 +26,14 @@ export default async function handler(
   
     if (commandsResponse) {
       res.status(200).send(commandsResponse as RESTGetAPIApplicationCommandsResult);
+      console.log(' commands success');
       return;
     }
     res.status(404).send({error: 'Failed to fetch API commands, please try again later.'});
+    console.log({error: 'Failed to fetch API commands, please try again later.'});
   }
   catch (e) {
-    console.error(e);
+    console.log(`error while fetching commands: `,e);
     res.status(503).send({ error: 'Internal server error.' });
   }
 }
