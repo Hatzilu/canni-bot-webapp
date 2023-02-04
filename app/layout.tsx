@@ -21,9 +21,9 @@ export default function RootLayout({
       <head />
       <body>
         <ProvidersWrapper>
-          <div className={font.className + ' flex'}>
+          <div className={`${font.className} flex overflow-hidden`}>
             <Navbar />
-            {children}
+            <div className="max-h-screen flex-1 overflow-auto">{children}</div>
           </div>
         </ProvidersWrapper>
       </body>
