@@ -1,55 +1,17 @@
-'use client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import BotCommandInfo from '../../components/BotCommandInfo/BotCommandInfo';
 import PageCard from '../../components/PageCard/PageCard';
 import { BASE_URL } from '../../consts/consts';
 import { BotCommandsResponse } from '../../pages/api/commands';
 
-function Docs() {
-  const [commands, setCommands] = useState<BotCommandsResponse>([]);
+async function Docs() {
+  const res = await fetch(`${BASE_URL}/api/commands`);
 
-  useEffect(() => {
-    const handler = async () => {
-      const res = await fetch(`${BASE_URL}/api/commands`);
-      if (!res.ok) {
-        return (
-          <PageCard>
-            <h1 className="text-2xl font-bold">Documentation</h1>
-            <p>
-              Something went wrong while fetching the commands from the server,
-              please try again :(
-            </p>
-          </PageCard>
-        );
-      }
-
-      const commandsOrNull = async (): Promise<BotCommandsResponse> => {
-        try {
-          const json = await res.json();
-          return json;
-        } catch (e) {
-          console.log(`error while turning response json to data: `, e);
-          return { error: JSON.stringify(e) };
-        }
-      };
-      const commands: BotCommandsResponse = await commandsOrNull();
-      setCommands(commands);
-    };
-    handler();
-  }, []);
+  const commands: BotCommandsResponse = await res.json();
 
   if ('error' in commands) {
-    return (
-      <PageCard>
-        <h1 className="text-2xl font-bold">Documentation</h1>
-        <p>
-          Something went wrong while fetching the commands from the server,
-          please try again :(
-        </p>
-      </PageCard>
-    );
+    return <p>{commands.error}</p>;
   }
-
   return (
     <PageCard>
       <h1 className="text-2xl font-bold">Documentation</h1>
