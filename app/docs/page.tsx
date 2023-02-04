@@ -7,6 +7,9 @@ import { BotCommandsResponse } from '../../pages/api/commands';
 async function Docs() {
   const res = await fetch(`${BASE_URL}/api/commands`);
 
+  if (!res.ok) {
+    return <p>something went wrong deez nuts</p>;
+  }
   const commands: BotCommandsResponse = await res.json();
 
   if ('error' in commands) {

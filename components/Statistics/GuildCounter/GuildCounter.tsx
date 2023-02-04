@@ -8,9 +8,6 @@ export default async function GuildCounter() {
       'Content-Type': 'application/json',
     }),
   });
-  if (!res.ok) {
-    return <p>something went wrong deez nuts</p>;
-  }
   const guilds: Guild[] = await res.json();
 
   return <StatisticCard text="servers using Canni" statistic={guilds.length} />;
